@@ -36,7 +36,7 @@ exports.up = function(knex) {
         .references('id')
         .inTable('zoos')
         .onDelete('RESTRICT')
-        .onUpdate('CASCADE')
+        .onUpdate('CASCADE');
 
       tbl
         .integer('animal_id')
@@ -44,11 +44,18 @@ exports.up = function(knex) {
         .references('id')
         .inTable('animals')
         .onDelete('RESTRICT')
-        .onUpdate('CASCADE')
+        .onUpdate('CASCADE');
+
+        tbl.date('from');
+        tbl.date('to');
   })
 };
 
 exports.down = function(knex) {
-  
+  return knex.schema
+    .dropTableIfExists('animal_zoos')
+    .dropTableIfExists('zoos')
+    .dropTableIfExists('animals')
+    .dropTableIfExists('species');
 };
 
